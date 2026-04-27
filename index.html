@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armstrong Lawn Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Nunito:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --turf:       #1b4332;
+  --turf-mid:   #2d6a4f;
+  --turf-light: #52b788;
+  --turf-pale:  #d8f3dc;
+  --sky:        #e8f4fd;
+  --clay:       #b5621a;
+  --clay-light: #e07b30;
+  --chalk:      #f8f8f4;
+  --ink:        #111a14;
+  --mid:        #4a5e50;
+  --stripe-a:   rgba(255,255,255,0.04);
+  --stripe-b:   rgba(255,255,255,0.0);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--chalk);
+  color: var(--ink);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────
+   NAV
+───────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 4vw;
+  background: rgba(27, 67, 50, 0.97);
+  backdrop-filter: blur(8px);
+}
+
+.logo {
+  display: flex; align-items: center; gap: 12px;
+  text-decoration: none;
+}
+.logo-leaf {
+  width: 34px; height: 34px;
+  background: var(--turf-light);
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+  position: relative;
+}
+.logo-leaf::after {
+  content: '';
+  position: absolute;
+  width: 1px; height: 60%; background: var(--turf); bottom: 12%;
+}
+.logo-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600; font-size: 1.15rem;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: #fff; line-height: 1.15;
+}
+.logo-text small {
+  display: block; font-weight: 300; font-size: 0.65rem;
+  letter-spacing: 0.18em; color: var(--turf-light);
+}
+
+.nav-links {
+  display: flex; gap: 0; list-style: none;
+}
+.nav-links a {
+  display: block; padding: 0 1.4rem; line-height: 68px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.8rem; font-weight: 400; letter-spacing: 0.14em;
+  text-transform: uppercase; text-decoration: none;
+  color: rgba(255,255,255,0.65);
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.07); }
+
+.nav-cta {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--clay); color: #fff;
+  padding: 0 1.6rem; height: 42px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; text-decoration: none;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: var(--clay-light); }
+.nav-cta svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* ─────────────────────────────────────
+   HERO — full-bleed aerial lawn photo
+   with mow-stripe overlay
+───────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 100vh; min-height: 620px;
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+}
+.hero-bg img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 60%;
+  display: block;
+}
+/* Mow-stripe effect: alternating translucent bands */
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    168deg,
+    var(--stripe-a) 0px,
+    var(--stripe-a) 48px,
+    var(--stripe-b) 48px,
+    var(--stripe-b) 96px
+  );
+}
+
+/* Dark gradient to make text readable */
+.hero-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10,25,15,0.92) 0%,
+    rgba(10,25,15,0.5) 45%,
+    rgba(10,25,15,0.1) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  width: 100%; padding: 0 6vw 7vh;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 4rem;
+}
+
+.hero-left { flex: 1; }
+
+.hero-pretitle {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem; font-weight: 400; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--turf-light);
+  margin-bottom: 1.4rem;
+}
+.hero-pretitle::before {
+  content: '';
+  width: 28px; height: 1.5px; background: var(--turf-light);
+}
+
+.hero-h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.2rem, 7.5vw, 7rem);
+  line-height: 0.93;
+  text-transform: uppercase;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+}
+.hero-h1 .accent { color: var(--turf-light); }
+
+.hero-body {
+  font-size: 1.05rem; font-weight: 300; line-height: 1.7;
+  color: rgba(255,255,255,0.72); max-width: 44ch;
+}
+
+/* Right side: service pills */
+.hero-right {
+  flex-shrink: 0;
+  display: flex; flex-direction: column; gap: 8px;
+  align-items: flex-end;
+  padding-bottom: 4px;
+}
+.hero-pill {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  padding: 11px 20px 11px 16px;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem; font-weight: 400; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.25s, border-color 0.25s;
+  cursor: default;
+  width: 240px;
+}
+.hero-pill:hover {
+  background: rgba(82, 183, 136, 0.2);
+  border-color: var(--turf-light);
+}
+.pill-icon {
+  width: 28px; height: 28px;
+  background: var(--turf-mid);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  z-index: 3; text-align: center;
+  animation: bounce 2s ease-in-out infinite;
+}
+.scroll-cue span {
+  display: block;
+  font-family: 'Oswald', sans-serif; font-size: 0.6rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4); margin-bottom: 8px;
+}
+.scroll-cue svg {
+  width: 18px; opacity: 0.4;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ─────────────────────────────────────
+   INTRO BAND — angled grass-cut edge
+───────────────────────────────────── */
+.band {
+  background: var(--turf);
+  padding: 4rem 6vw 5rem;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  margin-bottom: -3rem;
+  position: relative; z-index: 2;
+}
+.band-inner {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 4rem;
+  flex-wrap: wrap;
+}
+.band-text {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 300; color: #fff;
+  letter-spacing: 0.02em;
+  max-width: 55ch; line-height: 1.35;
+}
+.band-text strong { font-weight: 600; color: var(--turf-light); }
+.band-phone {
+  flex-shrink: 0;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700; letter-spacing: 0.04em;
+  color: #fff; text-decoration: none;
+  display: flex; flex-direction: column; align-items: flex-end;
+}
+.band-phone small {
+  font-size: 0.7rem; font-weight: 300;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--turf-light); margin-bottom: 4px;
+}
+
+/* ─────────────────────────────────────
+   SERVICES — large photo rows
+   Alternating left/right, full-width images
+───────────────────────────────────── */
+.services { padding: 6rem 0 4rem; position: relative; z-index: 1; }
+
+.svc-row {
+  display: flex;
+  min-height: 420px;
+  margin-bottom: 3px;
+}
+.svc-row.flip { flex-direction: row-reverse; }
+
+.svc-img {
+  flex: 1.4;
+  position: relative; overflow: hidden;
+}
+.svc-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 7s ease;
+  filter: saturate(0.9);
+}
+.svc-row:hover .svc-img img { transform: scale(1.04); }
+
+/* Diagonal slice between image and text */
+.svc-img::after {
+  content: '';
+  position: absolute; inset: 0;
+}
+.svc-row:not(.flip) .svc-img::after {
+  background: linear-gradient(to right, transparent 90%, var(--chalk) 100%);
+}
+.svc-row.flip .svc-img::after {
+  background: linear-gradient(to left, transparent 90%, var(--chalk) 100%);
+}
+
+.svc-body {
+  flex: 1;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 3.5rem 5vw;
+  background: var(--chalk);
+}
+
+.svc-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem; font-weight: 400;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--turf-light); margin-bottom: 0.8rem;
+}
+.svc-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700; text-transform: uppercase;
+  color: var(--turf); line-height: 1; margin-bottom: 1.4rem;
+}
+.svc-desc {
+  font-size: 1.05rem; font-weight: 300; line-height: 1.75;
+  color: var(--mid); max-width: 38ch;
+  margin-bottom: 2rem;
+}
+.svc-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--clay); text-decoration: none;
+  transition: gap 0.2s;
+}
+.svc-link:hover { gap: 16px; }
+.svc-link::after { content: '→'; }
+
+/* Divider line between services */
+.svc-divider {
+  height: 3px;
+  background: linear-gradient(to right, var(--turf-pale), transparent);
+  margin: 0 6vw;
+}
+
+/* ─────────────────────────────────────
+   PHOTO WALL — masonry-ish 3-up strip
+───────────────────────────────────── */
+.photo-wall {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  height: 380px;
+  gap: 3px;
+  margin: 4rem 0;
+}
+.photo-wall-cell {
+  overflow: hidden; position: relative;
+}
+.photo-wall-cell img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  filter: saturate(0.85);
+  transition: filter 0.4s, transform 0.5s;
+}
+.photo-wall-cell:hover img { filter: saturate(1.1); transform: scale(1.04); }
+.photo-wall-cell .overlay {
+  position: absolute; inset: 0;
+  background: rgba(27,67,50,0);
+  transition: background 0.3s;
+  display: flex; align-items: flex-end; padding: 1.5rem;
+}
+.photo-wall-cell:hover .overlay { background: rgba(27,67,50,0.35); }
+.overlay-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: #fff; opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.photo-wall-cell:hover .overlay-label { opacity: 1; transform: none; }
+
+/* ─────────────────────────────────────
+   ABOUT — two-tone split
+───────────────────────────────────── */
+.about {
+  display: flex;
+  min-height: 500px;
+}
+.about-green {
+  flex: 1; background: var(--turf);
+  padding: 6rem 5vw;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.about-white {
+  flex: 1; background: var(--chalk);
+  padding: 6rem 5vw;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.about-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem; font-weight: 400; letter-spacing: 0.3em;
+  text-transform: uppercase; margin-bottom: 1.2rem;
+}
+.about-green .about-label { color: var(--turf-light); }
+.about-white .about-label { color: var(--clay); }
+.about-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 700; text-transform: uppercase;
+  line-height: 1; margin-bottom: 1.8rem;
+}
+.about-green .about-h2 { color: #fff; }
+.about-white .about-h2 { color: var(--turf); }
+.about-p {
+  font-size: 1rem; font-weight: 300; line-height: 1.8;
+  max-width: 40ch;
+}
+.about-green .about-p { color: rgba(255,255,255,0.72); }
+.about-white .about-p { color: var(--mid); margin-bottom: 1.2rem; }
+
+/* Hours inside about-white */
+.hours-list { margin-top: 2rem; }
+.hour-row {
+  display: flex; justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  font-size: 0.95rem;
+}
+.hour-row:last-child { border-bottom: none; }
+.hour-row .day { color: var(--mid); font-weight: 400; }
+.hour-row .time { font-weight: 600; color: var(--turf); }
+.hour-row .time.closed { color: #c0392b; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.hour-row.today .day { color: var(--turf); font-weight: 600; }
+
+/* ─────────────────────────────────────
+   CONTACT
+───────────────────────────────────── */
+.contact {
+  background: var(--turf-pale);
+  padding: 6rem 6vw;
+}
+.contact-inner {
+  max-width: 900px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem;
+  align-items: start;
+}
+.contact-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem; font-weight: 400; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--clay);
+  margin-bottom: 1rem;
+}
+.contact-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 700; text-transform: uppercase;
+  color: var(--turf); line-height: 1; margin-bottom: 1.5rem;
+}
+.contact-p {
+  font-size: 1rem; font-weight: 300; line-height: 1.75;
+  color: var(--mid); margin-bottom: 2rem;
+}
+.contact-phone-link {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem; font-weight: 700;
+  color: var(--turf); text-decoration: none; letter-spacing: 0.04em;
+  display: block; transition: color 0.2s;
+}
+.contact-phone-link:hover { color: var(--clay); }
+
+/* Form */
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+.fgroup { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem; }
+.flabel {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--turf-mid);
+}
+.finput, .ftextarea, .fselect {
+  width: 100%; background: #fff;
+  border: 2px solid transparent;
+  border-radius: 0;
+  outline: none; padding: 0.75rem 1rem;
+  font-family: 'Nunito', sans-serif; font-size: 0.98rem;
+  color: var(--ink);
+  transition: border-color 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.finput:focus, .ftextarea:focus, .fselect:focus {
+  border-color: var(--turf-mid);
+}
+.ftextarea { resize: none; height: 110px; }
+.fsubmit {
+  width: 100%; padding: 1rem;
+  background: var(--turf); color: #fff; border: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.4rem;
+}
+.fsubmit:hover { background: var(--turf-mid); }
+
+/* ─────────────────────────────────────
+   FOOTER
+───────────────────────────────────── */
+footer {
+  background: var(--ink);
+  padding: 2.5rem 6vw;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-left {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #fff;
+}
+.footer-left small {
+  display: block; font-size: 0.6rem; font-weight: 300;
+  letter-spacing: 0.2em; color: var(--turf-light); margin-top: 2px;
+}
+.footer-copy {
+  font-size: 0.75rem; color: rgba(255,255,255,0.3);
+  letter-spacing: 0.05em;
+}
+
+/* ─────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ─────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────── */
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  .hero-right { display: none; }
+  .hero-content { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  .band-inner { flex-direction: column; align-items: flex-start; }
+  .band-phone { align-items: flex-start; }
+  .svc-row, .svc-row.flip { flex-direction: column; min-height: auto; }
+  .svc-img { height: 240px; flex: none; }
+  .svc-body { padding: 2.5rem 6vw; }
+  .photo-wall { grid-template-columns: 1fr 1fr; height: auto; }
+  .photo-wall-cell { height: 180px; }
+  .about { flex-direction: column; }
+  .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .frow { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-leaf"></div>
+    <div class="logo-text">
+      Armstrong
+      <small>Lawn Services</small>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Our Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="tel:4234808721" class="nav-cta">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
+    (423) 480-8721
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://as2.ftcdn.net/v2/jpg/03/70/95/85/1000_F_370958507_T2pavTxKnFmXaLm4CtG59f5o7js4Wwwq.jpg"
+         alt="Aerial view of a freshly mowed lawn" loading="eager">
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-left reveal">
+      <p class="hero-pretitle">Locally Owned &amp; Operated</p>
+      <h1 class="hero-h1">
+        Your Yard.<br>
+        <span class="accent">Our Pride.</span>
+      </h1>
+      <p class="hero-body">
+        Professional lawn care, landscaping, pressure washing, and tree services — done right, every time. Serving homeowners and businesses with integrity and craftsmanship.
+      </p>
+    </div>
+
+    <div class="hero-right reveal" style="transition-delay:0.2s">
+      <div class="hero-pill">
+        <div class="pill-icon">🌿</div>
+        Lawn Mowing
+      </div>
+      <div class="hero-pill">
+        <div class="pill-icon">🪨</div>
+        Landscaping
+      </div>
+      <div class="hero-pill">
+        <div class="pill-icon">💧</div>
+        Pressure Washing
+      </div>
+      <div class="hero-pill">
+        <div class="pill-icon">🌲</div>
+        Tree Services
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- BAND -->
+<div class="band">
+  <div class="band-inner">
+    <p class="band-text reveal">
+      We take pride in <strong>neat lines and quality work</strong> — communicating with our customers throughout every job until it's done to their satisfaction.
+    </p>
+    <a href="tel:4234808721" class="band-phone reveal" style="transition-delay:0.15s">
+      <small>Call for a free quote</small>
+      (423) 480-8721
+    </a>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="services">
+
+  <div class="svc-row">
+    <div class="svc-img">
+      <img src="img/lawnmowing.webp" alt="Lawn mowing service">
+    </div>
+    <div class="svc-body reveal">
+      <p class="svc-num">Service 01</p>
+      <h2 class="svc-name">Lawn Mowing</h2>
+      <p class="svc-desc">Precise cuts, clean edges, and that satisfying stripe pattern on every visit. We treat your lawn like it's our own — because your property deserves it.</p>
+      <a href="tel:4234808721" class="svc-link">Get a Quote</a>
+    </div>
+  </div>
+
+  <div class="svc-divider"></div>
+
+  <div class="svc-row flip">
+    <div class="svc-img">
+      <img src="img/landscaping.webp" alt="Landscaping and garden beds">
+    </div>
+    <div class="svc-body reveal">
+      <p class="svc-num">Service 02</p>
+      <h2 class="svc-name">Landscaping</h2>
+      <p class="svc-desc">From mulching and planting to stone borders and garden design — we build outdoor spaces that look great year-round and hold up through every season.</p>
+      <a href="tel:4234808721" class="svc-link">Get a Quote</a>
+    </div>
+  </div>
+
+  <div class="svc-divider"></div>
+
+  <div class="svc-row">
+    <div class="svc-img">
+      <img src="img/pressurewashing.webp" alt="Pressure washing driveway">
+    </div>
+    <div class="svc-body reveal">
+      <p class="svc-num">Service 03</p>
+      <h2 class="svc-name">Pressure Washing</h2>
+      <p class="svc-desc">Driveways, patios, siding, and decks restored to like-new. Professional-grade equipment and technique that makes the before-and-after speak for itself.</p>
+      <a href="tel:4234808721" class="svc-link">Get a Quote</a>
+    </div>
+  </div>
+
+  <div class="svc-divider"></div>
+
+  <div class="svc-row flip">
+    <div class="svc-img">
+      <img src="img/treeservices.webp" alt="Tree removal and services">
+    </div>
+    <div class="svc-body reveal">
+      <p class="svc-num">Service 04</p>
+      <h2 class="svc-name">Tree Services</h2>
+      <p class="svc-desc">Safe removal, trimming, and full debris cleanup. Our experienced crew protects your property at every step — leaving no mess behind.</p>
+      <a href="tel:4234808721" class="svc-link">Get a Quote</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- PHOTO WALL -->
+<div id="work" class="photo-wall">
+  <div class="photo-wall-cell">
+    <img src="img/lawnmowing.webp" alt="Freshly mowed lawn">
+    <div class="overlay"><span class="overlay-label">Lawn Care</span></div>
+  </div>
+  <div class="photo-wall-cell">
+    <img src="img/pressurewashing.webp" alt="Pressure washing">
+    <div class="overlay"><span class="overlay-label">Pressure Washing</span></div>
+  </div>
+  <div class="photo-wall-cell">
+    <img src="img/pressurewashedhouse.webp" alt="Clean home exterior">
+    <div class="overlay"><span class="overlay-label">Results</span></div>
+  </div>
+</div>
+
+<!-- ABOUT + HOURS -->
+<section id="about" class="about">
+  <div class="about-green">
+    <p class="about-label reveal">Who We Are</p>
+    <h2 class="about-h2 reveal" style="transition-delay:0.1s">Locally Owned.<br>Community Proud.</h2>
+    <p class="about-p reveal" style="transition-delay:0.15s">
+      Armstrong Lawn Services is a locally owned and operated company dedicated to providing reliable, high-quality lawn care to homeowners and businesses alike.
+    </p>
+    <p class="about-p reveal" style="transition-delay:0.2s">
+      We maintain constant communication throughout every project. You'll always know where we are, what we're doing, and when you can expect it finished — that's our commitment to you.
+    </p>
+  </div>
+  <div class="about-white">
+    <p class="about-label reveal">Business Hours</p>
+    <h2 class="about-h2 reveal" style="transition-delay:0.1s">When We're<br>Available</h2>
+    <div class="hours-list reveal" style="transition-delay:0.15s" id="hoursTable">
+      <div class="hour-row" data-day="1"><span class="day">Monday</span><span class="time">9:00 am – 5:00 pm</span></div>
+      <div class="hour-row" data-day="2"><span class="day">Tuesday</span><span class="time">9:00 am – 5:00 pm</span></div>
+      <div class="hour-row" data-day="3"><span class="day">Wednesday</span><span class="time closed">Closed</span></div>
+      <div class="hour-row" data-day="4"><span class="day">Thursday</span><span class="time">9:00 am – 5:00 pm</span></div>
+      <div class="hour-row" data-day="5"><span class="day">Friday</span><span class="time">9:00 am – 5:00 pm</span></div>
+      <div class="hour-row" data-day="6"><span class="day">Saturday</span><span class="time">9:00 am – 5:00 pm</span></div>
+      <div class="hour-row" data-day="0"><span class="day">Sunday</span><span class="time closed">Closed</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="contact-inner">
+    <div>
+      <p class="contact-label reveal">Free Quote</p>
+      <h2 class="contact-h2 reveal" style="transition-delay:0.1s">Let's Talk<br>About Your<br>Property</h2>
+      <p class="contact-p reveal" style="transition-delay:0.15s">No obligation. Fill out the form and we'll get back to you fast — or just give us a call.</p>
+      <a href="tel:4234808721" class="contact-phone-link reveal" style="transition-delay:0.2s">(423) 480-8721</a>
+    </div>
+
+    <form onsubmit="return false;" class="reveal" style="transition-delay:0.15s">
+      <div class="frow">
+        <div class="fgroup">
+          <label class="flabel">First Name</label>
+          <input class="finput" type="text" placeholder="John">
+        </div>
+        <div class="fgroup">
+          <label class="flabel">Last Name</label>
+          <input class="finput" type="text" placeholder="Smith">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fgroup">
+          <label class="flabel">Phone</label>
+          <input class="finput" type="tel" placeholder="(423) 000-0000">
+        </div>
+        <div class="fgroup">
+          <label class="flabel">Email</label>
+          <input class="finput" type="email" placeholder="you@email.com">
+        </div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Service Needed</label>
+        <select class="fselect">
+          <option value="">Select a service...</option>
+          <option>Lawn Mowing</option>
+          <option>Landscaping</option>
+          <option>Pressure Washing</option>
+          <option>Tree Services</option>
+          <option>Multiple Services</option>
+        </select>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Address &amp; Details</label>
+        <textarea class="ftextarea" placeholder="Your address and anything helpful about the job..."></textarea>
+      </div>
+      <button class="fsubmit" type="submit">Send Request →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    Armstrong Lawn Services
+    <small>(423) 480-8721 &nbsp;·&nbsp; Mon–Sat 9am–5pm</small>
+  </div>
+  <p class="footer-copy">© 2025 Armstrong Lawn Services. All rights reserved.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Highlight today's hours
+  const today = new Date().getDay();
+  const row = document.querySelector(`.hour-row[data-day="${today}"]`);
+  if (row) {
+    row.classList.add('today');
+    row.style.background = 'rgba(27,67,50,0.05)';
+    row.style.borderRadius = '3px';
+    row.style.paddingLeft = '8px';
+    row.style.marginLeft = '-8px';
+  }
+</script>
+
+</body>
+</html>
